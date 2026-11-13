@@ -2,17 +2,22 @@
 
 A static website that earns from search traffic with no running costs: **NetAfterFees**, a set of seller-fee calculators for 16 platforms (Stripe, PayPal, Etsy, eBay, Gumroad, Patreon and others).
 
-It is built to cost nothing to run. There is no server, no database and no AI calls at runtime: a dependency-free Node script generates 300 static pages, and GitHub Pages hosts them for free.
+It is built to cost nothing to run. There is no server, no database and no AI calls at runtime: a dependency-free Node script generates over 300 static pages, and GitHub Pages hosts them for free.
 
 ## What it builds
 
 | Pages | Count | Example |
 | --- | --- | --- |
 | Home: compare all platforms for one price | 1 | `/` |
-| Calculator per platform | 16 | `/etsy-fee-calculator/` |
+| Fee calculator per platform | 16 | `/etsy-fee-calculator/` |
 | Platform × amount | 160 | `/stripe-fee-calculator/100/` |
 | Head-to-head comparisons | 120 | `/compare/gumroad-vs-lemon-squeezy/` |
+| Profit calculator, general and per platform | 17 | `/etsy-profit-calculator/` |
+| Price list tool with CSV export | 1 | `/price-list/` |
 | About, comparison index, 404 | 3 | `/about/` |
+| Embeddable widgets (not indexed) | 16 | `/embed/etsy/` |
+
+Each fee calculator page offers copy-and-paste code for an embeddable widget. The widget carries a link back to the site, so every blog or shop that embeds it is a backlink, which is the main thing a new site needs to rank.
 
 Plus `sitemap.xml`, `robots.txt` and FAQ structured data.
 
@@ -41,6 +46,8 @@ Nothing earns until you connect accounts that you own. All of it is configured i
 | --- | --- | --- |
 | `affiliates` | `{ "lemon-squeezy": "https://…", "shopify-payments": "https://…" }` | Adds a labelled sign-up button on that platform's pages, with an affiliate disclosure in the footer |
 | `adsenseClient` | `ca-pub-…` from Google AdSense | Loads AdSense Auto ads and writes `ads.txt` |
+| `sponsor` | `{ "text": "…", "url": "https://…" }` | A labelled sponsor line on every page, for a placement you sell directly |
+| `newsletterAction` | The form URL from an email service such as Buttondown or MailerLite | Adds a "tell me when fees change" sign-up; the form posts a field named `email` |
 | `tipUrl` | A Stripe Payment Link, Ko-fi or Buy Me a Coffee URL | Adds a Support page and footer link |
 | `goatcounterCode` | Your GoatCounter site code | Privacy-friendly visit counts |
 

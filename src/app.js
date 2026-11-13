@@ -44,6 +44,66 @@
     update();
   });
 
+  each('[data-profit]', function (root) {
+    function update() {
+      var p = bySlug[root.querySelector('[data-in="platform"]').value];
+      var c = { price: val(root, 'price'), shippingCharged: val(root, 'shippingCharged'), itemCost: val(root, 'itemCost'), shippingCost: val(root, 'shippingCost'), otherCost: val(root, 'otherCost') };
+      var r = F.profit(p, c), target = F.priceForMargin(p, c, val(root, 'margin'));
+      out(root, 'fee', money(r.fee));
+      out(root, 'profit', money(r.profit));
+      out(root, 'margin', r.marginPct + '%');
+      out(root, 'price', target == null ? 'not reachable at these rates' : money(target));
+      root.querySelector('[data-out="profit"]').className = r.profit < 0 ? 'neg' : '';
+    }
+    root.addEventListener('input', update);
+    update();
+  });
+
+  each('[data-pricelist]', function (root) {
+    var rows = [], chosen = [];
+    function update() {
+      var prices = root.querySelector('[data-in="prices"]').value.split(/[\s,;]+/)
+        .map(function (s) { return parseFloat(s.replace(/[^0-9.]/g, '')); })
+        .filter(function (n) { return isFinite(n) && n > 0; }).slice(0, 2000);
+      chosen = Array.prototype.filter.call(root.querySelectorAll('input[type=checkbox]'), function (c) { return c.checked; })
+        .map(function (c) { return bySlug[c.value]; });
+      rows = prices.map(function (n) { return { price: n, cells: chosen.map(function (p) { return F.breakdown(p, n); }) }; });
+      out(root, 'count', rows.length + (rows.length === 1 ? ' price, ' : ' prices, ') + chosen.length + (chosen.length === 1 ? ' platform' : ' platforms'));
+      var shown = rows.slice(0, 200);
+      root.querySelector('[data-out="table"]').innerHTML = !rows.length || !chosen.length ? '<p class="note">Enter at least one price and tick at least one platform.</p>' :
+        '<table class="tbl"><thead><tr><th>Price</th>' + chosen.map(function (p) { return '<th class="num">Keep on ' + esc(p.name) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+        shown.map(function (r) {
+          var best = Math.max.apply(null, r.cells.map(function (b) { return b.net; }));
+          return '<tr><td>' + money(r.price) + '</td>' + r.cells.map(function (b) {
+            return '<td class="num' + (chosen.length > 1 && b.net === best ? ' win' : '') + '">' + money(b.net) + '</td>';
+          }).join('') + '</tr>';
+        }).join('') + '</tbody></table>' + (rows.length > shown.length ? '<p class="src">Showing the first 200 rows. The CSV has all ' + rows.length + '.</p>' : '');
+    }
+    root.querySelector('[data-csv]').addEventListener('click', function () {
+      if (!rows.length || !chosen.length) return;
+      var head = ['Price'].concat.apply(['Price'], chosen.map(function (p) { return [p.name + ' fee', p.name + ' keep']; }));
+      var lines = [head].concat(rows.map(function (r) {
+        return [r.price.toFixed(2)].concat.apply([r.price.toFixed(2)], r.cells.map(function (b) { return [b.fee.toFixed(2), b.net.toFixed(2)]; }));
+      }));
+      var csv = lines.map(function (l) { return l.map(function (v) { return /[",]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(','); }).join('\r\n');
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'fees-by-platform.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+    });
+    root.addEventListener('input', update);
+    update();
+  });
+
+  each('[data-copy-btn]', function (btn) {
+    btn.addEventListener('click', function () {
+      var ta = btn.closest('details').querySelector('[data-copy]');
+      ta.select();
+      (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).catch(function () { document.execCommand('copy'); });
+      btn.textContent = 'Copied';
+    });
+  });
+
   each('[data-custom]', function (root) {
     function update() {
       var p = { components: [{ label: 'Fee', pct: val(root, 'pct'), fixed: val(root, 'fixed') }] };

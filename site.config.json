@@ -8,6 +8,8 @@
     "adsenseClient": "",
     "tipUrl": "",
     "goatcounterCode": "",
+    "sponsor": { "text": "", "url": "" },
+    "newsletterAction": "",
     "affiliates": {}
   }
 }

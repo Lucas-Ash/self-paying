@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
-const { breakdown, chargeFor, rateText, money } = require('../lib/fees');
+const { breakdown, chargeFor, rateText, money, profit, priceForMargin } = require('../lib/fees');
 const data = require('../data/platforms.json');
 const by = Object.fromEntries(data.platforms.map(p => [p.slug, p]));
 
@@ -35,6 +35,25 @@ test('chargeFor returns the lowest price that nets the target, for every platfor
       assert.ok(breakdown(p, c - 0.01).net < target, `${p.slug} ${target}: not the minimum`);
     }
   }
+});
+
+test('profit: Etsy fees apply to price plus shipping charged', () => {
+  const r = profit(by.etsy, { price: 30, shippingCharged: 5, itemCost: 10, shippingCost: 4.5, otherCost: 0.5 });
+  assert.equal(r.revenue, 35);
+  assert.equal(r.fee, 3.78);      // 2.275->2.28 + 1.30 + 0.20
+  assert.equal(r.profit, 16.22);  // 35 - 3.78 - 15
+  assert.equal(r.marginPct, 46.34);
+});
+
+test('priceForMargin returns the lowest price that reaches the margin', () => {
+  for (const p of data.platforms) {
+    const c = { itemCost: 10, shippingCost: 3 };
+    const price = priceForMargin(p, c, 40);
+    assert.ok(profit(p, { ...c, price }).marginPct >= 40, p.slug);
+    const below = profit(p, { ...c, price: price - 0.01 });
+    assert.ok(below.profit / below.revenue * 100 < 40, p.slug);
+  }
+  assert.equal(priceForMargin(by.fiverr, { itemCost: 10 }, 85), null); // 20% fee makes 85% impossible
 });
 
 test('formatting', () => {
