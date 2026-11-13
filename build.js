@@ -43,7 +43,9 @@ function page({ file, title, description, body, jsonld, noindex, bare }) {
 
   const scripts = `<script src="${url('/fees.js')}"></script>
 <script src="${url('/platforms.js')}"></script>
-<script src="${url('/app.js')}"></script>`;
+<script src="${url('/tools.js')}"></script>
+<script src="${url('/app.js')}"></script>
+<script src="${url('/tools-app.js')}"></script>`;
   const html = bare ? `<!doctype html>
 <html lang="en">
 <head>
@@ -60,15 +62,15 @@ ${scripts}
 ${head}
 </head>
 <body>
-<header class="top"><div class="wrap">
+<header class="top no-print"><div class="wrap">
   <a class="brand" href="${url('/')}">${esc(cfg.siteName)}</a>
-  <nav><a href="${url('/')}#calculators">Fees</a><a href="${url('/profit-calculator/')}">Profit</a><a href="${url('/price-list/')}">Price list</a><a href="${url('/compare/')}">Compare</a><a href="${url('/about/')}">About</a>${mon.tipUrl ? `<a href="${url('/support/')}">Support</a>` : ''}</nav>
+  <nav><a href="${url('/')}#calculators">Fees</a><a href="${url('/tools/')}">Tools</a><a href="${url('/compare/')}">Compare</a><a href="${url('/about/')}">About</a>${mon.tipUrl ? `<a href="${url('/support/')}">Support</a>` : ''}</nav>
 </div></header>
 <main class="wrap">
 ${body}
 ${promo()}
 </main>
-<footer class="wrap foot">
+<footer class="wrap foot no-print">
   <p>Rates are standard published US rates in USD, last reviewed ${reviewed}. Platforms change their pricing, and your account may be on different terms, so check the platform's own fee page before you rely on a figure. Nothing here is financial advice.</p>
   ${Object.keys(mon.affiliates || {}).length ? `<p>Some links to platforms are affiliate links: if you sign up through one, this site may earn a commission at no cost to you. It does not change the numbers shown.</p>` : ''}
   <p><a href="${url('/about/')}">About &amp; method</a>${mon.tipUrl ? ` · <a href="${url('/support/')}">Support this site</a>` : ''}</p>
@@ -189,6 +191,8 @@ const pairSlug = (a, b) => [a.slug, b.slug].sort().join('-vs-');
 
 /* ---------- pages ---------- */
 
+const toolPages = require('./src/tool-pages')({ page, url, esc, P, bySlug, cfg, money, rateText, calcUrl, faqHtml, faqLd, affiliateCta, reviewed });
+
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -223,11 +227,7 @@ page({
 </section>
 
 <h2>More tools</h2>
-<ul class="cards">
-<li><a href="${url('/profit-calculator/')}"><b>Profit calculator</b><span>Fees, costs, profit and margin on one sale</span></a></li>
-<li><a href="${url('/price-list/')}"><b>Price list tool</b><span>Paste your prices, compare platforms, export CSV</span></a></li>
-<li><a href="${url('/compare/')}"><b>Head-to-head</b><span>Any two platforms side by side</span></a></li>
-</ul>
+${toolPages.cards()}
 
 <h2 id="calculators">Fee calculators by platform</h2>
 ${Object.entries(data.categories).map(([k, v]) => `<h3>${esc(v)}</h3>
@@ -416,6 +416,8 @@ page({
 <p>Nothing you paste leaves your browser. The CSV includes the fee and the take-home for each platform.</p>`
 });
 
+toolPages.build();
+
 page({
   file: 'about/index.html',
   title: `About and Method | ${cfg.siteName}`,
@@ -452,8 +454,9 @@ page({
 });
 
 /* ---------- assets ---------- */
-for (const f of ['style.css', 'app.js', 'favicon.svg']) fs.copyFileSync(path.join(__dirname, 'src', f), path.join(OUT, f));
+for (const f of ['style.css', 'app.js', 'tools-app.js', 'favicon.svg']) fs.copyFileSync(path.join(__dirname, 'src', f), path.join(OUT, f));
 fs.copyFileSync(path.join(__dirname, 'lib/fees.js'), path.join(OUT, 'fees.js'));
+fs.copyFileSync(path.join(__dirname, 'lib/tools.js'), path.join(OUT, 'tools.js'));
 fs.writeFileSync(path.join(OUT, 'platforms.js'),
   `window.SITE=${JSON.stringify({ base: BASE, categories: data.categories, platforms: P.map(({ slug, name, category, components }) => ({ slug, name, category, components })) })};\n`);
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'),

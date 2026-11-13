@@ -1,6 +1,6 @@
 # self-paying
 
-A static website that earns from search traffic with no running costs: **NetAfterFees**, a set of seller-fee calculators for 16 platforms (Stripe, PayPal, Etsy, eBay, Gumroad, Patreon and others).
+A static website that earns from search traffic with no running costs: **NetAfterFees**, a set of free tools for people who sell online. It has fee calculators for 16 platforms (Stripe, PayPal, Etsy, eBay, Gumroad, Patreon and others), plus profit, pricing, income and invoicing tools.
 
 It is built to cost nothing to run. There is no server, no database and no AI calls at runtime: a dependency-free Node script generates over 300 static pages, and GitHub Pages hosts them for free.
 
@@ -14,6 +14,11 @@ It is built to cost nothing to run. There is no server, no database and no AI ca
 | Head-to-head comparisons | 120 | `/compare/gumroad-vs-lemon-squeezy/` |
 | Profit calculator, general and per platform | 17 | `/etsy-profit-calculator/` |
 | Price list tool with CSV export | 1 | `/price-list/` |
+| Income goal calculator, general and per platform | 7 | `/patreon-income-calculator/` |
+| Freelance rate calculator | 1 | `/freelance-rate-calculator/` |
+| Break-even, discount impact, margin and markup calculators | 3 | `/break-even-calculator/` |
+| Invoice generator (print or save as PDF) | 1 | `/invoice-generator/` |
+| Tools index | 1 | `/tools/` |
 | About, comparison index, 404 | 3 | `/about/` |
 | Embeddable widgets (not indexed) | 16 | `/embed/etsy/` |
 
@@ -31,10 +36,9 @@ npm run serve   # builds and previews at http://localhost:8080/self-paying/
 
 ## Go live
 
-1. Merge this branch into `main`.
-2. Make the repository public (GitHub Pages needs that on a free plan).
-3. In **Settings → Pages**, set **Source** to **GitHub Actions**.
-4. The `Build and deploy site` workflow publishes to `https://lucas-ash.github.io/self-paying/` on every push to `main`.
+1. Make the repository public (GitHub Pages needs that on a free plan).
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+3. The `Build and deploy site` workflow publishes to `https://lucas-ash.github.io/self-paying/` on every push to `main`.
 
 For a custom domain, set `origin` to the domain and `basePath` to `""` in `site.config.json`, then add the domain in Settings → Pages.
 

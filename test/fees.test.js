@@ -56,6 +56,39 @@ test('priceForMargin returns the lowest price that reaches the margin', () => {
   assert.equal(priceForMargin(by.fiverr, { itemCost: 10 }, 85), null); // 20% fee makes 85% impossible
 });
 
+test('tools: income goal, freelance rate, break-even, discount, margin, invoice', () => {
+  const T = require('../lib/tools');
+  const s = T.supportersNeeded(by.patreon, 5, 1000);            // keep 5 - 0.95 = 4.05 each
+  assert.equal(s.perSupporter, 4.05);
+  assert.equal(s.supporters, 247);
+  assert.ok(s.takeHome >= 1000 && s.takeHome - s.perSupporter < 1000);
+
+  const f = T.freelanceRate({ income: 60000, expenses: 5000, taxPct: 25, weeksOff: 4, hoursPerWeek: 40, billablePct: 50, feePct: 20 });
+  assert.equal(f.billableHours, 960);
+  assert.equal(f.revenue, 106250);                              // (60000/0.75 + 5000) / 0.8
+  assert.equal(f.hourly, 110.68);
+  assert.equal(T.freelanceRate({ income: 1, hoursPerWeek: 0, billablePct: 50 }), null);
+
+  const b = T.breakEven(by.stripe, { fixed: 1000, price: 20, unitCost: 5 }); // 20 - 0.88 - 5 = 14.12
+  assert.equal(b.contribution, 14.12);
+  assert.equal(b.units, 71);
+  assert.equal(T.breakEven(by.fiverr, { fixed: 100, price: 10, unitCost: 9 }).units, null);
+
+  const d = T.discount(null, { price: 30, unitCost: 10, discountPct: 20 });
+  assert.deepEqual([d.salePrice, d.before, d.after, d.salesMultiple], [24, 20, 14, 1.43]);
+
+  assert.deepEqual(T.marginMarkup(10, 25), { profit: 15, marginPct: 60, markupPct: 150 });
+  assert.equal(T.priceFromMargin(10, 50), 20);
+  assert.equal(T.priceFromMargin(10, 100), null);
+  assert.equal(T.priceFromMarkup(10, 150), 25);
+
+  const items = [{ qty: 10, rate: 50 }, { qty: 1, rate: 99.5 }];
+  assert.deepEqual(T.invoice(items, 10), { subtotal: 599.5, tax: 59.95, fee: 0, total: 659.45 });
+  const withFee = T.invoice(items, 10, by.stripe);
+  assert.equal(breakdown(by.stripe, withFee.total).net >= 659.45, true);
+  assert.equal(withFee.fee, Math.round((withFee.total - 659.45) * 100) / 100);
+});
+
 test('formatting', () => {
   assert.equal(money(1234.5), '$1,234.50');
   assert.equal(money(-0.2), '-$0.20');
