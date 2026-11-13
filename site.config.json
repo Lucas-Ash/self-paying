@@ -1,0 +1,13 @@
+{
+  "siteName": "NetAfterFees",
+  "tagline": "See what you keep after platform fees",
+  "origin": "https://lucas-ash.github.io",
+  "basePath": "/self-paying",
+
+  "monetization": {
+    "adsenseClient": "",
+    "tipUrl": "",
+    "goatcounterCode": "",
+    "affiliates": {}
+  }
+}

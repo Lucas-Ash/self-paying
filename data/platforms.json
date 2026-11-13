@@ -1,0 +1,151 @@
+{
+  "reviewed": "2026-11-13",
+  "amounts": [5, 10, 20, 25, 50, 100, 250, 500, 1000, 5000],
+  "categories": {
+    "processor": "Payment processors",
+    "marketplace": "Marketplaces",
+    "digital": "Digital product platforms",
+    "creator": "Creator & crowdfunding platforms",
+    "freelance": "Freelance marketplaces"
+  },
+  "platforms": [
+    {
+      "slug": "stripe", "name": "Stripe", "category": "processor",
+      "source": "https://stripe.com/pricing",
+      "components": [{ "label": "Card processing", "pct": 2.9, "fixed": 0.30 }],
+      "summary": "Stripe's standard US rate for a domestic card payment is 2.9% plus 30¢ per successful charge.",
+      "notes": ["International cards add 1.5%, and currency conversion adds another 1%.", "Extras such as Stripe Billing, Invoicing and Tax are charged on top.", "Refunds return the amount to your customer but Stripe keeps the original processing fee."]
+    },
+    {
+      "slug": "paypal", "name": "PayPal", "category": "processor",
+      "source": "https://www.paypal.com/us/business/paypal-business-fees",
+      "components": [{ "label": "PayPal Checkout", "pct": 3.49, "fixed": 0.49 }],
+      "summary": "A payment through PayPal Checkout in the US costs the seller 3.49% plus a 49¢ fixed fee.",
+      "notes": ["Standard card payments processed by PayPal are cheaper: 2.99% plus the fixed fee.", "Payments from buyers outside the US add 1.5%.", "The fixed fee depends on the currency received; 49¢ applies to USD."]
+    },
+    {
+      "slug": "square", "name": "Square", "category": "processor",
+      "source": "https://squareup.com/us/en/pricing",
+      "components": [{ "label": "Online payment (Free plan)", "pct": 3.3, "fixed": 0.30 }],
+      "summary": "On Square's Free plan an online payment costs 3.3% plus 30¢. Paid plans bring that down to 2.9% plus 30¢.",
+      "notes": ["In-person tap, dip and swipe payments are cheaper at 2.6% plus 15¢ on the Free plan.", "Manually keyed and card-on-file payments cost 3.5% plus 15¢.", "Plus and Premium plans have a monthly subscription in exchange for lower rates."]
+    },
+    {
+      "slug": "shopify-payments", "name": "Shopify Payments", "category": "processor",
+      "source": "https://www.shopify.com/pricing",
+      "components": [{ "label": "Online card rate (Basic plan)", "pct": 2.9, "fixed": 0.30 }],
+      "summary": "Shopify Payments on the Basic plan charges 2.9% plus 30¢ for each online card payment in the US.",
+      "notes": ["Higher Shopify plans have lower card rates.", "If you use a third-party gateway instead of Shopify Payments, Shopify adds its own transaction fee (2% on Basic).", "The monthly Shopify subscription is separate and not included here."]
+    },
+    {
+      "slug": "etsy", "name": "Etsy", "category": "marketplace",
+      "source": "https://www.etsy.com/legal/fees/",
+      "components": [
+        { "label": "Transaction fee", "pct": 6.5, "fixed": 0 },
+        { "label": "Payment processing", "pct": 3, "fixed": 0.25 },
+        { "label": "Listing fee", "pct": 0, "fixed": 0.20 }
+      ],
+      "summary": "A US Etsy sale costs a 6.5% transaction fee, 3% plus 25¢ payment processing and a 20¢ listing fee.",
+      "notes": ["The transaction fee also applies to the shipping price you charge the buyer, so enter price plus shipping.", "If the sale comes through Etsy Offsite Ads, a further 12% or 15% is deducted.", "Listings renew every four months or when the item sells, at 20¢ each time."]
+    },
+    {
+      "slug": "ebay", "name": "eBay", "category": "marketplace",
+      "source": "https://www.ebay.com/help/selling/fees-credits-invoices/selling-fees?id=4822",
+      "components": [
+        { "label": "Final value fee (most categories)", "pct": 13.6, "fixed": 0 },
+        { "label": "Per-order fee", "tiers": [{ "upTo": 10, "pct": 0, "fixed": 0.30 }, { "pct": 0, "fixed": 0.40 }] }
+      ],
+      "summary": "In most eBay US categories the final value fee is 13.6% of the total sale, plus 30¢ per order ($10 or less) or 40¢ (over $10).",
+      "notes": ["The percentage applies to the total the buyer pays, including shipping and sales tax, so enter that total.", "Rates differ by category (roughly 12% to 15%) and drop to 2.35% on the portion of a sale above $7,500.", "Store subscribers and Top Rated sellers pay lower rates in some categories."]
+    },
+    {
+      "slug": "gumroad", "name": "Gumroad", "category": "digital",
+      "source": "https://gumroad.com/pricing",
+      "components": [
+        { "label": "Gumroad fee", "pct": 10, "fixed": 0.50 },
+        { "label": "Card processing", "pct": 2.9, "fixed": 0.30 }
+      ],
+      "summary": "Gumroad takes 10% plus 50¢ on each direct sale, and card processing of about 2.9% plus 30¢ comes off on top.",
+      "notes": ["Sales that come through the Gumroad Discover marketplace are charged a flat 30% instead.", "Gumroad acts as merchant of record and handles sales tax for you.", "PayPal payments have a slightly different processing rate."]
+    },
+    {
+      "slug": "lemon-squeezy", "name": "Lemon Squeezy", "category": "digital",
+      "source": "https://www.lemonsqueezy.com/pricing",
+      "components": [{ "label": "Platform fee", "pct": 5, "fixed": 0.50 }],
+      "summary": "Lemon Squeezy charges 5% plus 50¢ per transaction, which includes payment processing and merchant-of-record tax handling.",
+      "notes": ["International payments add 1.5%, PayPal payments add 1.5% and subscription payments add 0.5%.", "Payouts outside the US carry an additional payout fee.", "There is no monthly fee on the standard plan."]
+    },
+    {
+      "slug": "paddle", "name": "Paddle", "category": "digital",
+      "source": "https://www.paddle.com/pricing",
+      "components": [{ "label": "Platform fee", "pct": 5, "fixed": 0.50 }],
+      "summary": "Paddle's pay-as-you-go pricing is 5% plus 50¢ per checkout transaction, with payment processing and sales tax compliance included.",
+      "notes": ["Paddle is a merchant of record: it collects and remits sales tax and VAT for you.", "Products priced under $10 and high-volume sellers can get custom pricing.", "There is no monthly fee."]
+    },
+    {
+      "slug": "patreon", "name": "Patreon", "category": "creator",
+      "source": "https://support.patreon.com/hc/en-us/articles/36426991446797",
+      "components": [
+        { "label": "Platform fee", "pct": 10, "fixed": 0 },
+        { "label": "Payment processing", "tiers": [{ "upTo": 3, "pct": 5, "fixed": 0.10 }, { "pct": 2.9, "fixed": 0.30 }] }
+      ],
+      "summary": "Creators who launched after August 4, 2025 pay Patreon a 10% platform fee, plus payment processing of 2.9% plus 30¢ per pledge.",
+      "notes": ["Pledges of $3 or less use the micropayment processing rate of 5% plus 10¢.", "Pages published before August 4, 2025 keep their legacy 5%, 8% or 11% plan.", "Currency conversion (2.5%) and payout fees are extra."]
+    },
+    {
+      "slug": "substack", "name": "Substack", "category": "creator",
+      "source": "https://substack.com/going-paid-guide",
+      "components": [
+        { "label": "Substack fee", "pct": 10, "fixed": 0 },
+        { "label": "Stripe processing", "pct": 2.9, "fixed": 0.30 },
+        { "label": "Stripe recurring billing", "pct": 0.7, "fixed": 0 }
+      ],
+      "summary": "Substack takes 10% of paid subscriptions, and Stripe takes 2.9% plus 30¢ per payment and a 0.7% recurring billing fee.",
+      "notes": ["Free newsletters cost nothing to publish.", "Subscriptions bought through the Substack iOS app can carry Apple's in-app purchase fee.", "Annual plans pay the fixed 30¢ once a year instead of twelve times."]
+    },
+    {
+      "slug": "ko-fi", "name": "Ko-fi", "category": "creator",
+      "source": "https://more.ko-fi.com/pricing",
+      "components": [
+        { "label": "Ko-fi fee (free plan, shop & memberships)", "pct": 5, "fixed": 0 },
+        { "label": "Payment processing", "pct": 2.9, "fixed": 0.30 }
+      ],
+      "summary": "On Ko-fi's free plan, shop sales, memberships and commissions carry a 5% fee, and Stripe or PayPal processing of about 2.9% plus 30¢ comes off on top.",
+      "notes": ["One-off donations have a 0% Ko-fi fee; only the payment processor's fee applies.", "Ko-fi Gold removes the 5% fee for a monthly subscription.", "Money goes straight to your own Stripe or PayPal account."]
+    },
+    {
+      "slug": "buy-me-a-coffee", "name": "Buy Me a Coffee", "category": "creator",
+      "source": "https://buymeacoffee.com/",
+      "components": [
+        { "label": "Platform fee", "pct": 5, "fixed": 0 },
+        { "label": "Payment processing", "pct": 2.9, "fixed": 0.30 }
+      ],
+      "summary": "Buy Me a Coffee takes a 5% platform fee, and card processing of 2.9% plus 30¢ is deducted on top.",
+      "notes": ["There is no monthly fee.", "Payout and currency conversion fees can apply depending on your country."]
+    },
+    {
+      "slug": "kickstarter", "name": "Kickstarter", "category": "creator",
+      "source": "https://www.kickstarter.com/help/fees",
+      "components": [
+        { "label": "Kickstarter fee", "pct": 5, "fixed": 0 },
+        { "label": "Payment processing", "tiers": [{ "upTo": 9.99, "pct": 5, "fixed": 0.05 }, { "pct": 3, "fixed": 0.20 }] }
+      ],
+      "summary": "Kickstarter takes 5% of the funds a successful US project raises, plus payment processing of 3% plus 20¢ per pledge.",
+      "notes": ["Pledges under $10 use a micropledge processing rate of 5% plus 5¢.", "Fees are only charged if the project reaches its goal.", "Enter a single pledge amount; processing is charged per pledge, not on the campaign total."]
+    },
+    {
+      "slug": "fiverr", "name": "Fiverr", "category": "freelance",
+      "source": "https://help.fiverr.com/hc/en-us/articles/360010451397",
+      "components": [{ "label": "Seller service fee", "pct": 20, "fixed": 0 }],
+      "summary": "Fiverr keeps 20% of every order, including tips, so sellers receive 80%.",
+      "notes": ["Buyers pay their own separate service fee on top of your price.", "Withdrawal fees apply depending on the payout method."]
+    },
+    {
+      "slug": "upwork", "name": "Upwork", "category": "freelance",
+      "source": "https://support.upwork.com/hc/en-us/articles/211062538",
+      "components": [{ "label": "Freelancer service fee (typical)", "pct": 10, "fixed": 0 }],
+      "summary": "Upwork's freelancer service fee is set per contract at between 0% and 15%. This calculator uses 10%, a typical figure.",
+      "notes": ["The rate is fixed when you submit a proposal or receive an offer and stays the same for that contract.", "Connects for proposals and withdrawal fees are extra.", "Clients pay their own marketplace fee on top of your rate."]
+    }
+  ]
+}

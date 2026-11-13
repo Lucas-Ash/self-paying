@@ -1,0 +1,12 @@
+{
+  "name": "self-paying",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static seller-fee calculator site, built with no dependencies and hosted on GitHub Pages.",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test test/fees.test.js",
+    "serve": "node build.js && node serve.js"
+  },
+  "engines": { "node": ">=20" }
+}
